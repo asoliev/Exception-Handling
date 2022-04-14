@@ -10,20 +10,35 @@ namespace Task2
             {
                 throw new ArgumentNullException(stringValue);
             }
-
-            if (stringValue == "")
+            if (string.IsNullOrWhiteSpace(stringValue))
             {
                 throw new FormatException(stringValue);
             }
+            string s = stringValue.Trim();
 
-            try
+            bool isNegative = false;
+            long response = 0;
+            for (int i = 0; i < s.Length; i++)
             {
-                return Convert.ToInt32(stringValue);
+                char c = s[i];
+                if (i == 0)
+                {
+                    isNegative = c == '-';
+                    if (c == '+' || isNegative) continue;
+                }
+
+                if (!"0123456789".Contains(c)) throw new FormatException(s);
+
+                response *= 10;
+                if (isNegative) response -= c - '0';
+                else response += c - '0';
+
+                if (response < int.MinValue || response > int.MaxValue)
+                {
+                    throw new OverflowException(s);
+                }
             }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            return (int)response;
         }
     }
 }

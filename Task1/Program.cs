@@ -8,27 +8,21 @@ namespace Task1
         {
             while (true)
             {
-                try
+                Console.Write("Enter some text: ");
+                string input = Console.ReadLine();
+                if (string.IsNullOrEmpty(input))
                 {
-                    Console.Write("Enter some text: ");
-                    string input = Console.ReadLine();
-                    Console.WriteLine($"first character: '{input[0]}'");
-                }
-                catch (IndexOutOfRangeException ex)
-                {
-                    string msg = ex.Message;
-                    //Console.WriteLine(ex.Message);
-                    var defaultForegroundColor = Console.ForegroundColor;
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Empty string!");
-                    Console.ForegroundColor = defaultForegroundColor;
+                    Console.ResetColor();
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-                Console.ReadKey();
+                else Console.WriteLine($"first character: '{input[0]}'");
+                Console.WriteLine();
             }
+
         }
     }
 }
+//using (resource) { } // it is like try - finally
+//finaly may not be called when 3 critical exceptions raised: stackoverflow, memory exceed, ...
+//catch (Exception ex) when ex.Message == null //extra check of exception
